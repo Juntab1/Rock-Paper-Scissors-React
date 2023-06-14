@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { FaHandPaper, FaHandRock, FaHandScissors} from 'react-icons/fa';
+import { FaHandPaper, FaHandRock, FaHandScissors, FaSignOutAlt} from 'react-icons/fa';
 // keeps track of the users action
 import {useState} from 'react';
 
@@ -40,6 +40,7 @@ function ActionIcon({action, ...props}) {
     rock: FaHandRock,
     paper: FaHandPaper,
     scissors: FaHandScissors,
+    exit: FaSignOutAlt,
   };
   const Icon = icons[action];
 
@@ -83,6 +84,7 @@ function App() {
 
   const [playerScore, setPlayerScore] = useState(0);
   const [computerScore, setComputerScore] = useState(0);
+  const [tieScore, setTieScore] = useState(0);
   const [winner, setWinner] = useState(0);
 
   const onActionSelected = (selectedAction) => {
@@ -99,7 +101,16 @@ function App() {
     else if (newWinner === 1){
       setComputerScore(computerScore + 1);
     }
+    else if (newWinner === 0){
+      setTieScore(tieScore + 1);
+    }
 
+  }
+
+  const restart = () => {
+    setPlayerScore(playerScore - playerScore);
+    setComputerScore(computerScore - computerScore);
+    setTieScore(tieScore - tieScore);
   }
 
   return (
@@ -116,6 +127,12 @@ function App() {
           <ActionButton action='scissors' onActionSelected={onActionSelected}/>
         </div>  
         <ShowWinner winner={winner}/>
+        <div>
+          <h2># of Ties: {`${tieScore}`} </h2>
+        </div>
+        <div className='exit'>
+          <button onClick={restart}>restart</button>
+        </div>
       </div>
     </div>
   );
